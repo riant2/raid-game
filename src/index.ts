@@ -1,23 +1,42 @@
-console.log('Try npm run check/fix!');
+import {
+  interval,
+  animationFrameScheduler,
+  fromEvent,
+  combineLatest,
+  of,
+  zip,
+  merge,
+  Observable,
+} from 'rxjs';
+import {
+  switchMap,
+  takeUntil,
+  timeout,
+  combineAll,
+  startWith,
+} from 'rxjs/operators';
 
-const longString =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquet diam.';
+function game() {
+  const [play$, pause$] = getButtonClickEvents(['game.play', 'game.pause']);
 
-const trailing = 'Semicolon';
-
-const why = 'am I tabbed?';
-
-export function doSomeStuff(
-  withThis: string,
-  andThat: string,
-  andThose: string[]
-) {
-  //function on one line
-  if (!andThose.length) {
-    return false;
-  }
-  console.log(withThis);
-  console.log(andThat);
-  console.dir(andThose);
+  play$
+    .pipe(
+      startWith('autostart'),
+      switchMap(_ => {
+        return interval(0, animationFrameScheduler).pipe(takeUntil(pause$));
+      })
+    )
+    .subscribe(() => {
+      console.log('a');
+    });
 }
-// TODO: more examples
+
+function getButtonClickEvents(buttonIds: string[]): Array<Observable<Event>> {
+  const events = buttonIds.map(id => {
+    const element = document.getElementById(id);
+    return fromEvent(element!, 'click');
+  });
+  return events;
+}
+
+game();
