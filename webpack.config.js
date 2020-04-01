@@ -12,10 +12,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[chunkhash].js',
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   module: {
     rules: [
       {
-        test: /\.[tj]s$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
