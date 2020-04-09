@@ -16,4 +16,4 @@ export interface Actor {
   damage: number;
 }
 
-export type Actions = IncreaseTurnMeters | AddFighter | Actor;
+export type ReducerActions = IncreaseTurnMeters | AddFighter | Actor;

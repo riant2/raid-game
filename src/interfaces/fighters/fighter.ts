@@ -1,4 +1,7 @@
+import { Action } from './action';
+
 export interface Fighter {
+  actions: Action[];
   attack: number;
   canAct: boolean;
   damageTaken: number;

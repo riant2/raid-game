@@ -1,5 +1,8 @@
 import { State } from '../interfaces/fighters/state';
-import { Actions, IncreaseTurnMeters } from '../interfaces/fighters/actions';
+import {
+  ReducerActions,
+  IncreaseTurnMeters,
+} from '../interfaces/fighters/reducer-actions';
 import { map } from '../utility/dictionary';
 
 const turnMeterFullAt = 50000;
@@ -9,7 +12,7 @@ export function fightersReducer(
     canAct: {},
     list: {},
   },
-  action: Actions
+  action: ReducerActions
 ): State {
   switch (action.type) {
     case 'loop$.increase-turn-meters':
@@ -44,7 +47,7 @@ export function fightersReducer(
 function increaseTurnMeters(state: State, action: IncreaseTurnMeters): State {
   return {
     ...state,
-    list: map(state.list, fighter => {
+    list: map(state.list, (fighter) => {
       if (!fighter.isAlive) return fighter;
       const turnMeter = fighter.turnMeter + fighter.speed;
       return { ...fighter, turnMeter, canAct: turnMeter >= turnMeterFullAt };
